@@ -1,2 +1,1 @@
-# SQL_Queries
-SQL_Queries
+One of the most popular SQL_Queries in MySQL.
