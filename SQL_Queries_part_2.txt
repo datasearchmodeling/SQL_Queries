@@ -1,0 +1,62 @@
+1. Реализуем подзапросы - поиск минимального значения
+SELECT client_name, project_start, project_finish, budget 
+	
+	FROM project 
+		
+		WHERE budget = (SELECT MIN(budget) FROM project);
+
+2. Реализуем подзапросы  - поиск максимального значения
+SELECT client_name, project_start, project_finish, budget 
+FROM project 
+		
+		WHERE budget = (SELECT MIN(budget) FROM project);
+
+3. Реализуем подзапросы - поиск по дате 
+SELECT client_name, project_start, project_finish, budget 
+	
+	FROM project WHERE project_finish = (
+		SELECT project_finish FROM project 
+			WHERE project_finish='2010-07-20');
+
+4. Подзапрос - выборка по дате, наиболее далекая дата
+SELECT client_name, project_start, project_finish, budget 
+	
+	FROM project 
+WHERE project_finish = (
+			
+		SELECT MAX(project_finish) 
+				
+			FROM project
+);  
+
+5. Подзапрос - выборка по дате, ближайший проект
+SELECT client_name, project_start, project_finish, budget 
+	
+	FROM project 
+WHERE project_finish = (
+			
+		SELECT MIN(project_finish) 
+				
+			FROM project
+);
+
+6. Подзапрос - выборка по точной дате начала
+SELECT client_name, project_start, budget, project_finish 
+	
+	FROM project WHERE project_start = (
+		
+		SELECT project_start FROM project
+			
+			WHERE project_start ='2028-02-20');  
+
+
+7. Выборка названия пороекта в требуемом диапазоне цен и диапазоне дат  
+SELECT project_name, project_start, project_finish, budget 
+	
+	FROM project WHERE budget 
+		BETWEEN 460000 AND 500000 
+		
+		AND
+		
+		project_finish BETWEEN '20181220' AND '20231220'
+				
