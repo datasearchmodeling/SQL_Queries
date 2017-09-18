@@ -1,0 +1,75 @@
+select * from salespeople where city in ('Barcelona', 'London');
+
+select * from customers where snum in ('1101', '1120', '2021');
+
+select * from customers where snum Between .1010 AND .5215;
+
+select * from salesopeople where (comm Between .10 AND .12) AND NOT comm IN (.10, .12);
+
+select * from customers where cname between 'A' and 'G'
+
+select * from customers cnum like 'G%';
+
+select MAX(blc+amt) from orders;
+
+select snum, MAX(amt) from orders group by snum;
+
+select snum, odate, max(amt) from orders group by snum, odate;
+
+select count(*) from orders where odate = 3/10/1990
+
+select count(distinct city) from customers 
+
+select cnum, min(order) from orders group by cnum;
+
+select min(cname) from customers where cname like 'G%'
+
+Запрос выбирающий максимальный рейтинг для каждого города:
+select city, max(rating) from customers order by city
+
+Подсчитывает колличество продавцов, получающих заказы каждый день, дублирование не учитывать:
+select odate, count(DISTINCT snum) from orders by odate;
+
+Упорядочивание по множеству столбцов
+select * from orders ORDER BY cnum DESC, amt DESC;
+
+select snum, odate, MAX(amt) from orders group by snum, odate order by snum
+
+select onum, snum, amt*.12 from orders;
+
+select 'For the city', 'city', 'the highest rating is', MAX(rating) from customers group by city
+
+select rating, customers, 'customer's number' from CUSTOMERS ordered by rating DESC;
+
+select orders, SUM(amt) from orders group by odate ordered by 2desc;
+
+Установка между продавцачми и покупаиелями для установления всех возможных связей
+select Customers.cname, salespeople.sname, salespeople.city 
+	from salepeolpe, customers
+		where salespeople.city = customer.city   
+
+Найти все ачвки покупателей находящихся в том же городе, что и их продавец
+select onum, cname, orders.cnum, orders.snum
+	from salespeople, customers, orders
+		where customer.city <> salepeople.city
+			and orders.cnum = customers.cnum
+			and orders.snum = salespeople.snum
+
+Выдает каждый номер заказа, и следующее за ним имя покупателя, сделавшего этот заказ
+select onum, cname from orders, customers where orders.cnum = customers.cnum
+
+После каждого заказа выдет номер заказа и имена продавцов и покупателей
+select cnum, oname, sname from orders, customers, salespeople 
+	where orders.cnum = customers.cnum
+	and salespeople.snum = orders.snum
+
+Имена всех покупателей, обслуживаемых продавцами, имеющими коммиссионные более 12%. Выходнные данные имя покупателя, имя продавца и коммисионные продавца
+select cname, sname, comm 
+	from customers, salespeople 
+	where customers.snum = salespeople.snum
+	and comm > .12;
+
+
+
+
+
