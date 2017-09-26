@@ -1,0 +1,286 @@
+select * from customers outer
+	where 10/03/1990 in
+	(select odate from orders inner
+		where outer.cnum = inner.cnum) 
+
+select * from customers first, Orders second
+	where first.cnum = second.cnum
+		and second.odate = 10/03/1990;
+
+select snum, sname
+	from salespeople main
+		where 1<(select count (*) from customers
+				where snum = main.snum)
+
+select * from orders main 
+	where not snum = (select snum = from customers
+			where cnum = main.cnum);
+
+select * from orders outer
+	where amt > (select AVG (amt)
+		from orders inner
+			where inner.cnum = outer.cnum)
+
+select * from orders outer
+	where amt >= (select AVG(amt) from orders inner
+		where inner.cnum = outer.cnum);
+
+select odate, SUM(amt) from Orders a
+	group by odate 
+		having sum(amt) > (select 2000.00 + MAX (amt)
+			from Orders b 
+				where a.odate = b.odate);
+
+select cname, cname from Customers outer
+	where rating = (select MAX(rating) from Customers inner	
+		where inner.city = outer.city);
+
+select snum, sname from salespeople main from salespeople main
+	where city in (select city from customers inner
+		where inner.snum < > main.snum);
+
+select distinct first.snum, sname 
+	from salespeople first, customers second 
+		where first.city = second.city 
+		and first.snum < > second.snum;
+
+select cnum, cname, city from customers 
+	where exists (select * from customers where city = 'San Jose')
+
+select distinct snum from customers outer
+	where exists (select * from customers inner
+		where inner.snum = outer.snum
+		and inner.cnum <> outer.cnum);
+
+select * from Salespeople first
+	where exists (select * from customers second
+	where firts.snum = second.snum
+	and 1<(select count (*) from orders
+	where orders.cnum = second.cnum));
+
+select * from Salespeople first
+	where exists (select * from Customers second
+	where first.snum = second.snum
+	and rating = 300);
+
+select a.snum, sname, a.city, comm
+	from salespeople a, Customers b
+	where a.snum = b.snum
+	and b.rating = 300;
+
+select * from Salespeople first
+	where exists (select * from Customers second
+	where first.city = second.city
+	and first.snum <> second.snum);
+
+select * from Customers first
+	where exists (select * from Orders second
+	where first.snum = second.snum
+	and a.snum <> b.snum);
+
+select * from customers outer
+	where not exists (select * from customers inner
+	where outer.rating <= inner.rating
+	and inner.city = 'Rome');
+
+select * from customers
+	where rating = ALL 
+	(select rating from customers
+		where city = 'San Jose');
+
+select * from Customers
+	where rating = (Select Distinct rating
+		from Customers
+		where city = 'San Jose');
+
+select * from customers
+	where rating <> ALL
+	(select rating from customers
+		where city = 'San Jose');
+
+select * from Customers
+	where rating NOT IN
+	(select rating from customers
+		where city = 'San Jose');
+
+select * from customers where NOT rating = ANY
+	(select rating from customers 
+		where city = 'San Jose');
+
+select * from customers
+	where rating > ANY
+	(select rating from customers
+	where city = 'Boston');
+
+select * from customers where rating > ANY
+	(select rating from customers
+		where city = 'Rome');
+
+select * from customers outer
+	where exists
+	(select * from customers inner
+	where outer.rating > inner.rating)
+
+select * from customers outer
+	where exists (select * from customers inner
+		where outer.rating > inner.rating
+		and inner.city = 'Rome');
+
+select * from customers outer
+	where not exists 
+	(select * from customers inner
+	where outer.rating <= inner.rating
+	and inner.city = 'Rome');
+
+select * from customers outer
+	where 1> (select count(*)
+		from customers inner
+		where outer.rating <= inner.rating
+		and inner.city = 'Rome');
+
+select * from customers
+	where rating >= ANY
+	(select rating from customers where snum = 1002);
+
+select * from salespeople a
+	where exists 
+	(select * from customers b
+	where b.city = a.city
+	and a.snum <> b.snum);
+
+select * from orders 
+	where amt >  
+	(select MAX(amt) from 
+	Orders a, Customers b
+	where a.cnum = b.cnum 
+	AND b.city = 'London%'); 
+
+select first.cname, second.cname, first.rating
+	from customers first, customers second
+	where first.rating = second.rating;
+
+select first.cname, second.cname, first.rating
+	form Customers first, Customers second
+	where first.rating = second.rating
+	and first.cname<second.cname;
+
+select first.onum, first.cnum, first.snum, second.onum, second.cnum,
+       second.snum
+	from orders first,
+  	where first.cnum = second.cnum
+	and first.snum <> second.snum;
+
+select a.cnum, b.cnum, c.num
+	from customers a, customers b, customers c
+	where a.rating = 100
+	and b.rating = 200
+	and c.rating = 300; 	 
+
+select b.cnum, b.cnam
+	from customers a, customers b
+	where a.snum = 1002
+	and b.city = a.city;
+
+select sname, salespeople.snum, first.cname, second.cname
+	from customers first, customers second, salespeople
+	where first.snum = second.snum
+		and salespeople.snum = first.snum
+		and first.cnum<second.cnum;
+
+select first.sname, second.sname 
+	from salespeople first, salespeople second
+		where first.city = second.city
+		and first.sname < second.sname;
+
+select cname, first.onum, second.onum
+	from Order firts, Order second, Customes
+	where first.cnum = second.cnum
+	and first.cnum = Customers.cnum
+	and first.onum < second.onum;	
+
+select a.cname, a.city from Customers a, Customers b
+	where a.rating = b.rating
+	and b.cnum = 2001;
+
+select * from Orders
+	where snum = (select snum from salespeople	
+			where sname = 'Motika');
+
+select * from Orders
+	where snum = (select snum from salespeople
+			where city = 'Barcelona')
+
+select * from orders
+	where snum = (select distinct snum from Orders
+			where cnum = 2001);
+
+¬ыбор за€вок, в которых указано колличество,превышающее среднее значение дл€ за€вок, поступивших на 4 окт€бр€ 1990 г. 
+select * from orders
+	where amt > (select ANG(amt) from Orders 
+			where odate = 10/04/1990)
+Ќайти средние коммисионные дл€ продавцов, наход€щихс€ в Ћондоне
+select avg(comm) from salespeople
+	where city = 'London';
+
+select * from Orders
+	where snum in (select snum from salespeople 
+			where city = 'London')
+
+select onum, amt, odate, cnum, Orders.snum
+	from Orders, Salespeople
+	where orders.snum = salespeople.snum
+	and salespeople.city = 'London';
+
+select onum, amt, odate
+	from Orders
+	where snum = (select DISTINCT snum
+			from Orders where cnum = 2001);
+
+select onum, amt, odate
+	from Orders where snum IN
+		(select snum from Orders where cnum = 2001);
+
+ оммисионные всех продацов, обслуживающих покупателей в городе
+select comm from salesperson 
+	where snum in (select snum from customers
+			where city = 'London')
+
+select * from customers
+	where cnum = (select snum+1000 from salespeople
+			where sname = 'Serres');
+
+select onum, amt, odate from Orders
+	where orders where snum = (select distinct snum 
+					from Orders where cnum = 2001);
+
+select onum, amt, odate from orders 
+	where snum in (select snum from orders 
+			where cnum = 2001);
+
+select * from Customers
+	where cnum = (select snum + 1000 from Salesperson
+			where sname = 'Series');
+
+select rating, count (distinct cnum) from Customers
+	group by rating
+	having rating > (select avg(rating) from Customers
+				where city = 'San Jose');
+
+ѕодзапрос дл€ получени€ всех заказов покупател€ с имене Cisneros.
+select * from Orders where cnum = (select cnum from Customers where cname = 'Cissneros');
+
+select * form Orders where cnum IN (select cnum form Customers where cname = Cisneros);
+
+»мена и рейтинги всех тех покупателей, которые сделали больше среднего числа заказов
+select DISTINCT cname, rating 
+	from customers, orders 
+		where amt > (select AVG(amt) from orders)
+		and orders.cnum = customers.cnum;
+
+«апишите запрос, выбирающий сумму заказов каждого продавца, у которого она превышает наибольшее значение пол€ amount в таблице Orders.
+select snum, sum(amt) 
+	from orders 
+		group by snum
+			having sum(amt)>(select MAX(amt)
+				from Orders);
+						
